@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const CHECKOUT_URL = 'https://yomiyasu.lemonsqueezy.com/checkout/buy/picapra-placeholder'
+const CHECKOUT_URL = 'https://yomiyasu.lemonsqueezy.com/checkout/buy/6204b298-aa72-4afd-8fa9-909d816b9870'
 
 interface Props {
   onActivate: (key: string) => Promise<void>

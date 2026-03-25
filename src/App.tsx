@@ -9,7 +9,7 @@ import { usePro } from './hooks/usePro'
 import type { FrameSettings } from './components/Settings'
 import './index.css'
 
-const CHECKOUT_URL = 'https://yomiyasu.lemonsqueezy.com/checkout/buy/picapra-placeholder'
+const CHECKOUT_URL = 'https://yomiyasu.lemonsqueezy.com/checkout/buy/6204b298-aa72-4afd-8fa9-909d816b9870'
 
 const DEFAULT_SETTINGS: FrameSettings = {
   backgroundId: 'purple',
