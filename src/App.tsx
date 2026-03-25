@@ -85,6 +85,28 @@ export default function App() {
               <h1 className="text-3xl font-bold text-gray-900 mb-2">スクショを映える画像に</h1>
               <p className="text-gray-500 text-sm">グラデーション背景・影・フレームを追加して、SNS映えする画像に仕上げます</p>
             </div>
+            {/* 完成例プレビュー */}
+            <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+              <div style={{ background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)', padding: 24, display: 'flex', justifyContent: 'center' }}>
+                <div style={{ background: 'white', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.2)', maxWidth: 280, width: '100%' }}>
+                  <div style={{ background: '#e8e8e8', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#f87171', display: 'inline-block' }} />
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#fbbf24', display: 'inline-block' }} />
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#4ade80', display: 'inline-block' }} />
+                    <div style={{ flex: 1, height: 16, borderRadius: 8, background: 'rgba(255,255,255,0.7)', marginLeft: 8 }} />
+                  </div>
+                  <div style={{ background: '#f8fafc', padding: 16 }}>
+                    <div style={{ height: 10, borderRadius: 5, background: '#e2e8f0', marginBottom: 8 }} />
+                    <div style={{ height: 10, borderRadius: 5, background: '#e2e8f0', width: '75%', marginBottom: 16 }} />
+                    <div style={{ height: 60, borderRadius: 8, background: '#e2e8f0' }} />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-purple-50 text-center py-2">
+                <span className="text-xs text-purple-600 font-medium">完成例：背景＋フレームを追加した状態</span>
+              </div>
+            </div>
+
             <DropZone onImage={setImageUrl} />
             <div className="grid grid-cols-3 gap-3 text-center">
               {[
@@ -126,8 +148,12 @@ export default function App() {
             <div className="w-full lg:w-72 shrink-0">
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                 <Settings settings={settings} onChange={setSettings} isPro={isPro} onUpgrade={() => setShowModal(true)} />
+                <button onClick={handleExport} disabled={exporting}
+                  className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 rounded-xl transition text-sm disabled:opacity-50">
+                  {exporting ? '書き出し中...' : '📥 PNG保存'}
+                </button>
                 <button onClick={() => setSettings(DEFAULT_SETTINGS)}
-                  className="w-full mt-4 text-xs text-gray-400 hover:text-gray-600 py-2 transition">
+                  className="w-full mt-2 text-xs text-gray-400 hover:text-gray-600 py-2 transition">
                   デフォルトに戻す
                 </button>
               </div>
