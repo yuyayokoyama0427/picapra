@@ -27,18 +27,24 @@ export default function App() {
   const [settings, setSettings] = useState<FrameSettings>(DEFAULT_SETTINGS)
   const [showModal, setShowModal] = useState(false)
   const [exporting, setExporting] = useState(false)
+  const [exportError, setExportError] = useState<string | null>(null)
   const { isPro, activate, loading, error } = usePro()
   const previewRef = useRef<HTMLDivElement>(null)
 
   async function handleExport() {
     if (!previewRef.current) return
     setExporting(true)
+    setExportError(null)
     try {
+      // フォント・CSSの読み込み待ちのため2回呼び出す（html-to-imageの既知の問題対策）
+      await toPng(previewRef.current, { pixelRatio: 2 })
       const dataUrl = await toPng(previewRef.current, { pixelRatio: 2 })
       const a = document.createElement('a')
       a.href = dataUrl
       a.download = `picapra_${Date.now()}.png`
       a.click()
+    } catch {
+      setExportError('書き出しに失敗しました。もう一度お試しください。')
     } finally {
       setExporting(false)
     }
@@ -140,7 +146,7 @@ export default function App() {
                   </div>
                 </div>
                 <div className="overflow-auto flex items-center justify-center bg-gray-50 rounded-xl min-h-64 p-2">
-                  <Preview ref={previewRef} imageUrl={imageUrl} settings={settings} />
+                  <Preview ref={previewRef} imageUrl={imageUrl} settings={settings} isPro={isPro} />
                 </div>
               </div>
             </div>
@@ -152,6 +158,7 @@ export default function App() {
                   className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 rounded-xl transition text-sm disabled:opacity-50">
                   {exporting ? '書き出し中...' : '📥 PNG保存'}
                 </button>
+                {exportError && <p className="text-xs text-red-500 mt-2 text-center">{exportError}</p>}
                 <button onClick={() => setSettings(DEFAULT_SETTINGS)}
                   className="w-full mt-2 text-xs text-gray-400 hover:text-gray-600 py-2 transition">
                   デフォルトに戻す
@@ -162,7 +169,13 @@ export default function App() {
         )}
       </main>
 
-      <footer className="text-center text-xs text-gray-400 py-8">© 2026 Picapra</footer>
+      <footer className="text-center text-xs text-gray-400 py-8 space-y-2">
+        <div className="flex justify-center gap-4">
+          <a href="/privacy" className="hover:text-gray-600 underline">プライバシーポリシー</a>
+          <a href="/terms" className="hover:text-gray-600 underline">利用規約</a>
+        </div>
+        <div>© 2026 Picapra</div>
+      </footer>
 
       {showModal && (
         <LicenseModal onActivate={handleActivate} onClose={() => setShowModal(false)} loading={loading} error={error} />

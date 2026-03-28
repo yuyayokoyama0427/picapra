@@ -26,7 +26,6 @@ export function LicenseModal({ onActivate, onClose, loading, error }: Props) {
               <p className="text-sm font-semibold text-purple-700 mb-2">Pro版でできること</p>
               <p className="text-sm text-purple-600">✓ 背景グラデーション 12種（+6種追加）</p>
               <p className="text-sm text-purple-600">✓ デバイスフレーム（ブラウザ・スマホ）</p>
-              <p className="text-sm text-purple-600">✓ 複数枚バッチ書き出し</p>
               <p className="text-sm text-purple-600">✓ カスタムカラー背景</p>
               <p className="text-xs text-purple-400 mt-2">買い切り 750円（税込）</p>
             </div>

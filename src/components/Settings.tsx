@@ -1,4 +1,4 @@
-import { BACKGROUNDS, PADDING_OPTIONS, RADIUS_OPTIONS, SHADOW_OPTIONS } from '../lib/backgrounds'
+import { BACKGROUNDS, SHADOW_OPTIONS } from '../lib/backgrounds'
 
 export interface FrameSettings {
   backgroundId: string
@@ -81,40 +81,36 @@ export function Settings({ settings, onChange, isPro, onUpgrade }: Props) {
 
       {/* パディング */}
       <div>
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">余白</p>
-        <div className="flex gap-2">
-          {PADDING_OPTIONS.map(p => (
-            <button key={p.id}
-              onClick={() => set({ padding: p.value })}
-              className={`flex-1 py-2 rounded-xl text-xs font-medium transition-colors ${
-                settings.padding === p.value
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">余白</p>
+          <span className="text-xs text-gray-400">{settings.padding}px</span>
         </div>
+        <input
+          type="range"
+          min={8}
+          max={120}
+          step={4}
+          value={settings.padding}
+          onChange={e => set({ padding: Number(e.target.value) })}
+          className="w-full accent-purple-600"
+        />
       </div>
 
       {/* 角丸 */}
       <div>
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">角丸</p>
-        <div className="flex gap-2">
-          {RADIUS_OPTIONS.map(r => (
-            <button key={r.id}
-              onClick={() => set({ radius: r.value })}
-              className={`flex-1 py-2 rounded-xl text-xs font-medium transition-colors ${
-                settings.radius === r.value
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {r.label}
-            </button>
-          ))}
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">角丸</p>
+          <span className="text-xs text-gray-400">{settings.radius}px</span>
         </div>
+        <input
+          type="range"
+          min={0}
+          max={40}
+          step={2}
+          value={settings.radius}
+          onChange={e => set({ radius: Number(e.target.value) })}
+          className="w-full accent-purple-600"
+        />
       </div>
 
       {/* 影 */}

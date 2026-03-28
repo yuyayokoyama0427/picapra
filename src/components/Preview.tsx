@@ -5,11 +5,12 @@ import type { FrameSettings } from './Settings'
 interface Props {
   imageUrl: string
   settings: FrameSettings
+  isPro?: boolean
 }
 
-function BrowserFrame({ children }: { children: React.ReactNode }) {
+function BrowserFrame({ children, radius, shadow }: { children: React.ReactNode; radius: number; shadow: string }) {
   return (
-    <div className="overflow-hidden" style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+    <div className="overflow-hidden" style={{ borderRadius: radius, boxShadow: shadow }}>
       <div className="flex items-center gap-1.5 px-3 py-2.5" style={{ background: '#e8e8e8' }}>
         <span className="w-3 h-3 rounded-full bg-red-400" />
         <span className="w-3 h-3 rounded-full bg-yellow-400" />
@@ -23,13 +24,13 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
   )
 }
 
-function PhoneFrame({ children }: { children: React.ReactNode }) {
+function PhoneFrame({ children, radius, shadow }: { children: React.ReactNode; radius: number; shadow: string }) {
   return (
     <div style={{
       border: '8px solid #1a1a1a',
-      borderRadius: 32,
+      borderRadius: radius,
       overflow: 'hidden',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+      boxShadow: shadow,
       background: '#1a1a1a',
     }}>
       <div style={{ height: 20, background: '#1a1a1a', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -40,7 +41,7 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const Preview = forwardRef<HTMLDivElement, Props>(({ imageUrl, settings }, ref) => {
+export const Preview = forwardRef<HTMLDivElement, Props>(({ imageUrl, settings, isPro }, ref) => {
   const bg = BACKGROUNDS.find(b => b.id === settings.backgroundId)
   const background = settings.useCustom
     ? `linear-gradient(135deg, ${settings.customColor1} 0%, ${settings.customColor2} 100%)`
@@ -62,14 +63,24 @@ export const Preview = forwardRef<HTMLDivElement, Props>(({ imageUrl, settings }
   return (
     <div
       ref={ref}
-      style={{ background, padding: settings.padding, display: 'inline-block' }}
+      style={{ background, padding: settings.padding, display: 'inline-block', position: 'relative' }}
     >
       {settings.frame === 'browser' ? (
-        <BrowserFrame>{innerContent}</BrowserFrame>
+        <BrowserFrame radius={settings.radius} shadow={settings.shadow}>{innerContent}</BrowserFrame>
       ) : settings.frame === 'phone' ? (
-        <PhoneFrame>{innerContent}</PhoneFrame>
+        <PhoneFrame radius={settings.radius} shadow={settings.shadow}>{innerContent}</PhoneFrame>
       ) : (
         innerContent
+      )}
+      {!isPro && (
+        <div style={{
+          position: 'absolute', bottom: 6, right: 10,
+          fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)',
+          letterSpacing: '0.05em', pointerEvents: 'none',
+          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
+        }}>
+          Picapra
+        </div>
       )}
     </div>
   )
